@@ -1,0 +1,12 @@
+AppBundle\Entity\Sprint:
+    sprint_1:
+        status: "OPEN"
+        expectedClosedAt: <expectedClosedAt()>
+AppBundle\Entity\Issue:
+    issue{1..10}:
+        title: Issue <current()>
+        description: <text()>
+        sprint: @sprint_1
+        status: <status()>
+        doneAt: <doneAt()>
+
