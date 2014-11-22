@@ -5,6 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ */
 class SprintController extends Controller
 {
     /**

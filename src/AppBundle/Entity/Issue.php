@@ -2,10 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * Issue
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class Issue
 {

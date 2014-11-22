@@ -4,10 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sprint
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class Sprint
 {

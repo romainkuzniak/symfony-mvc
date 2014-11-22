@@ -9,4 +9,3 @@ AppBundle\Entity\Issue:
         sprint: @sprint_1
         status: <status()>
         doneAt: <doneAt()>
-

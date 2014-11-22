@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\Alice\Fixtures;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class LoadSprintData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -24,7 +24,7 @@ class LoadSprintData extends AbstractFixture implements OrderedFixtureInterface
      *
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      */
-    function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         Fixtures::load(__DIR__ . '/sprints.yml', $manager, array('providers' => array($this)));
     }
@@ -55,7 +55,7 @@ class LoadSprintData extends AbstractFixture implements OrderedFixtureInterface
      *
      * @return integer
      */
-    function getOrder()
+    public function getOrder()
     {
         return 1;
     }
