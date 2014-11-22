@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * Sprint
  */
 class Sprint
 {

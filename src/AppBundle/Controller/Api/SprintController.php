@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller\Api;
 
-use AppBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -22,14 +22,16 @@ class SprintController extends Controller
             ->getRepository('AppBundle:Sprint')
             ->find($id);
 
-        if ('CLOSE' === $sprint->getStatus()) {
-            $this->get('session')->getFlashBag()->add('error', 'Sprint already closed');
+        if (null === $sprint) {
+            throw new NotFoundHttpException();
+        }
 
-            return $this->redirect($this->generateUrl('show_sprint', array('id' => $id)));
+        if ('CLOSE' === $sprint->getStatus()) {
+            return new JsonResponse('Sprint already closed', 400);
         }
 
         $totalIssuesCount = $sprint->getIssues()->count();
-        /** @var Issue $issue */
+
         foreach ($sprint->getIssues() as $issue) {
             if ('DONE' === $issue->getStatus()) {
                 $issue->setClosedAt(new \DateTime());

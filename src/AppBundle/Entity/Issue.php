@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * Issue
  */
 class Issue
 {

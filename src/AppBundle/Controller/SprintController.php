@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -20,6 +21,10 @@ class SprintController extends Controller
         $sprint = $this->getDoctrine()
             ->getRepository('AppBundle:Sprint')
             ->find($id);
+
+        if (null === $sprint) {
+            throw new NotFoundHttpException();
+        }
 
         if ('CLOSE' === $sprint->getStatus()) {
             $this->get('session')->getFlashBag()->add('error', 'Sprint already closed');
