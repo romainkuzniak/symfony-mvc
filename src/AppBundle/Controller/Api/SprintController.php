@@ -1,9 +1,10 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -44,10 +45,8 @@ class SprintController extends Controller
 
         $closedIssueCount = $sprint->getIssues()->count();
 
-        return $this->render(
-            'AppBundle:Sprint:close.html.twig',
+        return new JsonResponse(
             array(
-                'id'                => $id,
                 'totalIssuesCount'  => $totalIssuesCount,
                 'closedIssuesCount' => $closedIssueCount
             )

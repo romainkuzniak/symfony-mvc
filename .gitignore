@@ -1,3 +1,4 @@
+*.db3
 /web/bundles/
 /app/bootstrap.php.cache
 /app/cache/*
