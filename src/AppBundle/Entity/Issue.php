@@ -34,7 +34,7 @@ class Issue
     private $createdAt;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     private $doneAt;
 
@@ -44,7 +44,7 @@ class Issue
     private $closedAt;
 
     /**
-     * @var
+     * @var Sprint
      */
     private $sprint;
 
@@ -54,8 +54,6 @@ class Issue
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -64,70 +62,32 @@ class Issue
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Issue
+     * @return \DateTime
      */
-    public function setStatus($status)
+    public function getClosedAt()
     {
-        $this->status = $status;
+        return $this->closedAt;
+    }
 
-        return $this;
+    public function setClosedAt(\DateTime $closedAt)
+    {
+        $this->closedAt = $closedAt;
     }
 
     /**
-     * Get status
-     *
-     * @return string
+     * @return \DateTime
      */
-    public function getStatus()
+    public function getCreatedAt()
     {
-        return $this->status;
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Issue
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Issue
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
      * @return string
      */
     public function getDescription()
@@ -136,74 +96,56 @@ class Issue
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Issue
+     * @param string $description
      */
-    public function setCreatedAt($createdAt)
+    public function setDescription($description)
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->description = $description;
     }
 
     /**
-     * Get createdAt
-     *
      * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set doneAt
-     *
-     * @param string $doneAt
-     *
-     * @return Issue
-     */
-    public function setDoneAt($doneAt)
-    {
-        $this->doneAt = $doneAt;
-
-        return $this;
-    }
-
-    /**
-     * Get doneAt
-     *
-     * @return string
      */
     public function getDoneAt()
     {
         return $this->doneAt;
     }
 
-    /**
-     * Set closedAt
-     *
-     * @param \DateTime $closedAt
-     *
-     * @return Issue
-     */
-    public function setClosedAt($closedAt)
+    public function setDoneAt(\DateTime $doneAt)
     {
-        $this->closedAt = $closedAt;
-
-        return $this;
+        $this->doneAt = $doneAt;
     }
 
     /**
-     * Get closedAt
-     *
-     * @return \DateTime
+     * @return string
      */
-    public function getClosedAt()
+    public function getStatus()
     {
-        return $this->closedAt;
+        return $this->status;
     }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
 }

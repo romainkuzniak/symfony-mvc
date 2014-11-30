@@ -10,13 +10,14 @@ use Doctrine\Common\Collections\Collection;
  */
 class Sprint
 {
+
     /**
      * @var integer
      */
     private $id;
 
     /**
-     * @var integer
+     * @var string
      */
     private $status;
 
@@ -47,8 +48,45 @@ class Sprint
     }
 
     /**
-     * Get id
-     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEffectiveClosedAt()
+    {
+        return $this->effectiveClosedAt;
+    }
+
+    public function setEffectiveClosedAt(\DateTime $effectiveClosedAt)
+    {
+        $this->effectiveClosedAt = $effectiveClosedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getExpectedClosedAt()
+    {
+        return $this->expectedClosedAt;
+    }
+
+    public function setExpectedClosedAt(\DateTime $expectedClosedAt)
+    {
+        $this->expectedClosedAt = $expectedClosedAt;
+    }
+
+    /**
      * @return integer
      */
     public function getId()
@@ -57,22 +95,6 @@ class Sprint
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Issue
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
      * @return string
      */
     public function getStatus()
@@ -81,104 +103,24 @@ class Sprint
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Sprint
+     * @param string $status
      */
-    public function setCreatedAt($createdAt)
+    public function setStatus($status)
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->status = $status;
     }
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set expectedEndedAt
-     *
-     * @param \DateTime $expectedEndedAt
-     *
-     * @return Sprint
-     */
-    public function setExpectedClosedAt($expectedEndedAt)
-    {
-        $this->expectedClosedAt = $expectedEndedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get expectedEndedAt
-     *
-     * @return \DateTime
-     */
-    public function getExpectedClosedAt()
-    {
-        return $this->expectedClosedAt;
-    }
-
-    /**
-     * Set closedAt
-     *
-     * @param \DateTime $closedAt
-     *
-     * @return Sprint
-     */
-    public function setEffectiveClosedAt($closedAt)
-    {
-        $this->effectiveClosedAt = $closedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get closedAt
-     *
-     * @return \DateTime
-     */
-    public function getEffectiveClosedAt()
-    {
-        return $this->effectiveClosedAt;
-    }
-
-    /**
-     * Add issues
-     *
-     * @param Issue $issues
-     *
-     * @return Sprint
-     */
     public function addIssue(Issue $issues)
     {
         $this->issues[] = $issues;
-
-        return $this;
     }
 
-    /**
-     * Remove issues
-     *
-     * @param Issue $issues
-     */
     public function removeIssue(Issue $issues)
     {
         $this->issues->removeElement($issues);
     }
 
     /**
-     * Get issues
-     *
      * @return Collection
      */
     public function getIssues()
