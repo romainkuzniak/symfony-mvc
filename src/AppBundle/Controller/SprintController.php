@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Issue;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -32,8 +31,6 @@ class SprintController extends Controller
             return $this->redirect($this->generateUrl('show_sprint', array('id' => $id)));
         }
 
-        $totalIssuesCount = $sprint->getIssues()->count();
-        /** @var Issue $issue */
         foreach ($sprint->getIssues() as $issue) {
             if ('DONE' === $issue->getStatus()) {
                 $issue->setClosedAt(new \DateTime());
@@ -45,17 +42,13 @@ class SprintController extends Controller
         $sprint->setEffectiveClosedAt(new \DateTime());
         $sprint->setStatus('CLOSE');
 
-        $this->getDoctrine()->getManager()->flush();
-
         $closedIssueCount = $sprint->getIssues()->count();
+
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->render(
             'AppBundle:Sprint:close.html.twig',
-            array(
-                'id'                => $id,
-                'totalIssuesCount'  => $totalIssuesCount,
-                'closedIssuesCount' => $closedIssueCount
-            )
+            array('id' => $id, 'closedIssuesCount' => $closedIssueCount)
         );
     }
 

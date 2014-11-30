@@ -30,8 +30,6 @@ class SprintController extends Controller
             return new JsonResponse('Sprint already closed', 400);
         }
 
-        $totalIssuesCount = $sprint->getIssues()->count();
-
         foreach ($sprint->getIssues() as $issue) {
             if ('DONE' === $issue->getStatus()) {
                 $issue->setClosedAt(new \DateTime());
@@ -43,16 +41,11 @@ class SprintController extends Controller
         $sprint->setEffectiveClosedAt(new \DateTime());
         $sprint->setStatus('CLOSE');
 
-        $this->getDoctrine()->getManager()->flush();
-
         $closedIssueCount = $sprint->getIssues()->count();
 
-        return new JsonResponse(
-            array(
-                'totalIssuesCount'  => $totalIssuesCount,
-                'closedIssuesCount' => $closedIssueCount
-            )
-        );
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(array('closedIssuesCount' => $closedIssueCount));
     }
 
     /**

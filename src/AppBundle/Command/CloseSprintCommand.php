@@ -27,29 +27,27 @@ class CloseSprintCommand extends ContainerAwareCommand
                 ->getRepository('AppBundle:Sprint')
                 ->findSprintToClose();
 
-            $totalIssuesCount = $sprint->getIssues()->count();
-
-            foreach ($sprint->getIssues() as $issue) {
-                if ('DONE' === $issue->getStatus()) {
-                    $issue->setClosedAt(new \DateTime());
-                    $issue->setStatus('CLOSE');
-                } else {
-                    $sprint->removeIssue($issue);
-                }
-            }
-            $sprint->setEffectiveClosedAt(new \DateTime());
-            $sprint->setStatus('CLOSE');
-
-            $this->getContainer()->get('doctrine')->getManager()->flush();
-
-            $closedIssueCount = $sprint->getIssues()->count();
-
-            $output->writeln('Close Sprint');
-            $output->writeln('id: ' . $sprint->getId());
-            $output->writeln('totalIssuesCount: ' . $totalIssuesCount);
-            $output->writeln('closedIssuesCount: ' . $closedIssueCount);
         } catch (NoResultException $nre) {
             $output->writeln('None');
         }
+
+        foreach ($sprint->getIssues() as $issue) {
+            if ('DONE' === $issue->getStatus()) {
+                $issue->setClosedAt(new \DateTime());
+                $issue->setStatus('CLOSE');
+            } else {
+                $sprint->removeIssue($issue);
+            }
+        }
+        $sprint->setEffectiveClosedAt(new \DateTime());
+        $sprint->setStatus('CLOSE');
+
+        $closedIssueCount = $sprint->getIssues()->count();
+
+        $this->getContainer()->get('doctrine')->getManager()->flush();
+
+        $output->writeln('Close Sprint');
+        $output->writeln('id: ' . $sprint->getId());
+        $output->writeln('closedIssuesCount: ' . $closedIssueCount);
     }
 }
