@@ -1,4 +1,4 @@
-agility_board:
+app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix:   /
 

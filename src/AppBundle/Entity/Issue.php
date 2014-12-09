@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Carbon\Carbon;
+
 /**
- * Issue
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class Issue
 {
@@ -11,46 +13,46 @@ class Issue
     /**
      * @var integer
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $status;
+    protected $status;
 
     /**
      * @var string
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      */
-    private $description;
+    protected $description;
 
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
+
+    /**
+     * @var string
+     */
+    protected $doneAt;
 
     /**
      * @var \DateTime
      */
-    private $doneAt;
-
-    /**
-     * @var \DateTime
-     */
-    private $closedAt;
+    protected $closedAt;
 
     /**
      * @var Sprint
      */
-    private $sprint;
+    protected $sprint;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTime(Carbon::now()->toTimeString());
     }
 
     /**
@@ -59,69 +61,6 @@ class Issue
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getClosedAt()
-    {
-        return $this->closedAt;
-    }
-
-    public function setClosedAt(\DateTime $closedAt)
-    {
-        $this->closedAt = $closedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDoneAt()
-    {
-        return $this->doneAt;
-    }
-
-    public function setDoneAt(\DateTime $doneAt)
-    {
-        $this->doneAt = $doneAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
@@ -135,17 +74,53 @@ class Issue
     /**
      * @return string
      */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
+     * @return string
      */
-    public function setTitle($title)
+    public function getDescription()
     {
-        $this->title = $title;
+        return $this->description;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDoneAt()
+    {
+        return $this->doneAt;
+    }
+
+    public function setClosedAt(\DateTime $closedAt)
+    {
+        $this->closedAt = $closedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getClosedAt()
+    {
+        return $this->closedAt;
+    }
 }

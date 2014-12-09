@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Entity\Sprint;
+use AppBundle\Repository\SprintRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,9 +20,11 @@ class SprintController extends Controller
      */
     public function closeAction($id)
     {
-        $sprint = $this->getDoctrine()
-            ->getRepository('AppBundle:Sprint')
-            ->find($id);
+        /** @var SprintRepository $sprintRepository */
+        $sprintRepository = $this->getDoctrine()->getRepository('AppBundle:Sprint');
+
+        /** @var Sprint $sprint */
+        $sprint = $sprintRepository->find($id);
 
         if (null === $sprint) {
             throw new NotFoundHttpException();
@@ -41,11 +45,14 @@ class SprintController extends Controller
         $sprint->setEffectiveClosedAt(new \DateTime());
         $sprint->setStatus('CLOSE');
 
+        $averageClosedIssues = $sprintRepository->findAverageClosedIssues();
         $closedIssueCount = $sprint->getIssues()->count();
 
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse(array('closedIssuesCount' => $closedIssueCount));
+        return new JsonResponse(
+            array('closedIssuesCount' => $closedIssueCount, 'averageClosedIssues' => $averageClosedIssues)
+        );
     }
 
     /**
@@ -53,8 +60,13 @@ class SprintController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction($id)
+    public function getAction($id)
     {
-        return $this->render('AppBundle:Sprint:show.html.twig', array('id' => $id));
+        $sprint = $this->getDoctrine()->getRepository('AppBundle:Sprint')->find($id);
+
+        $response = new JsonResponse();
+        $response->setContent($this->get('jms_serializer')->serialize($sprint, 'json'));
+
+        return $response;
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Sprint;
+use AppBundle\Repository\SprintRepository;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,31 +24,33 @@ class CloseSprintCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $sprint = $this->getContainer()->get('doctrine')
-                ->getRepository('AppBundle:Sprint')
-                ->findSprintToClose();
+            /** @var SprintRepository $repository */
+            $repository = $this->getContainer()->get('doctrine')->getRepository('AppBundle:Sprint');
+
+            $sprint = $repository->findSprintToClose();
+            foreach ($sprint->getIssues() as $issue) {
+                if ('DONE' === $issue->getStatus()) {
+                    $issue->setClosedAt(new \DateTime());
+                    $issue->setStatus('CLOSE');
+                } else {
+                    $sprint->removeIssue($issue);
+                }
+            }
+            $sprint->setEffectiveClosedAt(new \DateTime());
+            $sprint->setStatus('CLOSE');
+
+            $closedIssueCount = $sprint->getIssues()->count();
+            $averageClosedIssues = $repository->findAverageClosedIssues();
+
+            $this->getContainer()->get('doctrine')->getManager()->flush();
+
+            $output->writeln('Close Sprint');
+            $output->writeln('closedIssuesCount: ' . $closedIssueCount);
+            $output->writeln('averageClosedIssues:' . $averageClosedIssues);
 
         } catch (NoResultException $nre) {
             $output->writeln('None');
         }
 
-        foreach ($sprint->getIssues() as $issue) {
-            if ('DONE' === $issue->getStatus()) {
-                $issue->setClosedAt(new \DateTime());
-                $issue->setStatus('CLOSE');
-            } else {
-                $sprint->removeIssue($issue);
-            }
-        }
-        $sprint->setEffectiveClosedAt(new \DateTime());
-        $sprint->setStatus('CLOSE');
-
-        $closedIssueCount = $sprint->getIssues()->count();
-
-        $this->getContainer()->get('doctrine')->getManager()->flush();
-
-        $output->writeln('Close Sprint');
-        $output->writeln('id: ' . $sprint->getId());
-        $output->writeln('closedIssuesCount: ' . $closedIssueCount);
     }
 }

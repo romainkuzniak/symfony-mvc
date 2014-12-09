@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Sprint;
+use AppBundle\Repository\SprintRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -17,9 +19,11 @@ class SprintController extends Controller
      */
     public function closeAction($id)
     {
-        $sprint = $this->getDoctrine()
-            ->getRepository('AppBundle:Sprint')
-            ->find($id);
+        /** @var SprintRepository $sprintRepository */
+        $sprintRepository = $this->getDoctrine()->getRepository('AppBundle:Sprint');
+
+        /** @var Sprint $sprint */
+        $sprint = $sprintRepository->find($id);
 
         if (null === $sprint) {
             throw new NotFoundHttpException();
@@ -43,12 +47,13 @@ class SprintController extends Controller
         $sprint->setStatus('CLOSE');
 
         $closedIssueCount = $sprint->getIssues()->count();
+        $averageClosedIssues = $sprintRepository->findAverageClosedIssues();
 
         $this->getDoctrine()->getManager()->flush();
 
         return $this->render(
             'AppBundle:Sprint:close.html.twig',
-            array('id' => $id, 'closedIssuesCount' => $closedIssueCount)
+            array('id' => $id, 'closedIssuesCount' => $closedIssueCount, 'averageClosedIssues' => $averageClosedIssues)
         );
     }
 
@@ -59,6 +64,12 @@ class SprintController extends Controller
      */
     public function showAction($id)
     {
-        return $this->render('AppBundle:Sprint:show.html.twig', array('id' => $id));
+        $sprint = $this->getDoctrine('service.sprint')->getRepository('AppBundle:Sprint')->find($id);
+        if (null === $sprint) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->render('AppBundle:Sprint:show.html.twig', array('sprint' => $sprint));
+
     }
 }
