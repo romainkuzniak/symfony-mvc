@@ -51,7 +51,10 @@ class SprintController extends Controller
         $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse(
-            array('closedIssuesCount' => $closedIssueCount, 'averageClosedIssues' => $averageClosedIssues)
+            array(
+                'closedIssuesCount'   => $closedIssueCount,
+                'averageClosedIssues' => $averageClosedIssues
+            )
         );
     }
 

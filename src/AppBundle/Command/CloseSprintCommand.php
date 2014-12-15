@@ -16,8 +16,7 @@ class CloseSprintCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this
-            ->setName('agility-board:close-sprint')
+        $this->setName('agility-board:close-sprint')
             ->setDescription('Close sprint');
     }
 
@@ -39,18 +38,12 @@ class CloseSprintCommand extends ContainerAwareCommand
             $sprint->setEffectiveClosedAt(new \DateTime());
             $sprint->setStatus('CLOSE');
 
-            $closedIssueCount = $sprint->getIssues()->count();
-            $averageClosedIssues = $repository->findAverageClosedIssues();
-
             $this->getContainer()->get('doctrine')->getManager()->flush();
 
-            $output->writeln('Close Sprint');
-            $output->writeln('closedIssuesCount: ' . $closedIssueCount);
-            $output->writeln('averageClosedIssues:' . $averageClosedIssues);
+            $output->writeln('Close Sprint: ' . $sprint->getId());
 
         } catch (NoResultException $nre) {
             $output->writeln('None');
         }
-
     }
 }

@@ -53,7 +53,11 @@ class SprintController extends Controller
 
         return $this->render(
             'AppBundle:Sprint:close.html.twig',
-            array('id' => $id, 'closedIssuesCount' => $closedIssueCount, 'averageClosedIssues' => $averageClosedIssues)
+            array(
+                'sprintId'            => $sprint->getId(),
+                'closedIssuesCount'   => $closedIssueCount,
+                'averageClosedIssues' => $averageClosedIssues
+            )
         );
     }
 

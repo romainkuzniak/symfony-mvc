@@ -22,7 +22,8 @@ class SprintRepository extends EntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.expectedClosedAt < :now')
             ->setParameter('now', new \DateTime(Carbon::now()->toDateTimeString()))
-            ->andWhere('s.status != \'CLOSE\'')
+            ->andWhere('s.status != :status')
+            ->setParameter('status', 'CLOSE')
             ->getQuery()
             ->getSingleResult();
     }
